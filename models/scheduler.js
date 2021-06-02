@@ -178,6 +178,7 @@ const scheduler = {
 		if(!sdate || !edate){
 			return false;
 		}
+		
 		const sql =`SELECT * FROM schedule WHERE scheduleDate BETWEEN ? AND ?`;
 		const rows = await sequelize.query(sql, {
 			replacements : [sdate, edate],
