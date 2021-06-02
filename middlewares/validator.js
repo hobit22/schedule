@@ -9,6 +9,7 @@ module.exports.validator = (req,res,next) =>{
 		endDate : '종료일을 입력하세요',
 	};
 	
+	
 	try {
 		for(column in required){
 			if(!req.body[column]){
