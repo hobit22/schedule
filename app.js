@@ -9,6 +9,7 @@ const { sequelize } = require('./models');
 /** 라우터 */
 const indexRouter = require('./routes');
 
+
 dotenv.config();
 
 const app = express();
