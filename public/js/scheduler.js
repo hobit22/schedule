@@ -1,13 +1,27 @@
 /* 오늘 스케줄 있는경우 팝업 처리 */
+/*
 function popupToday(){
 	if($(".scheduler").hasClass("today")){
 		hb.layer.popup("/schedule/today", 400, 500);
 	}
 }
+*/
 
+function checkToday(){
+	if( $(".scheduler").hasClass("today") ){			
+		console.log("test");
+		$(".today_checklist").css("background-color", "#ff9f82");
+	}
+}
 $(function() {
 	// 오늘 스케줄 팝업
-	popupToday();
+	//popupToday();
+	checkToday();
+	console.log("test111");
+	$(".scheduler .today_checklist").click( function () {
+		hb.layer.popup("/schedule/today", 400,500);
+	});
+	
 	
 	$(".scheduler .day .no").click(function() {
 		const stamp = $(this).closest(".day").data("stamp");
@@ -145,6 +159,10 @@ $(function() {
 	/** 오늘 스케줄 확인 처리 */
 	$("body").on("click", ".today_list .confirm", function() {
 		$list = $(".today_list input[type='checkbox']:checked");
+		if ($list.length == 0) {
+			alert("확인할 스케줄을 선택하세요.");
+			return;
+		}
 		
 		if(!confirm("정말 확인처리 하시겠습니까?")){
 			return ;

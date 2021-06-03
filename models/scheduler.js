@@ -64,7 +64,10 @@ const scheduler = {
 		
 		/** 스케줄 조회 S */
 		const schedules= await this.get(days[0].object, days[days.length - 1].object);
-		const colors = Object.keys(this.getColors());
+		const colors = Object.keys(this.getColors())
+									.map((color =>{
+										return color.replace(/\$/, "#");
+									}));
 		
 		days.forEach((v, i, _days) => {
 			let isContinue = true;
@@ -150,7 +153,7 @@ const scheduler = {
 			skyblue : "black",
 			orange : "white",
 			red : "white",
-			gray : "black",
+			gray : "black",			
 		}
 	},
 	/**
