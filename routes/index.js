@@ -8,6 +8,8 @@ const router = express.Router();
 /** 스케줄 조회 */
 router.get('/', async (req, res, next) => {
 	const data = await scheduler.getCalendar(req.query.year, req.query.month);
+	data.todaySchedules = await scheduler.getTodaySchedules();
+	
 	//console.log(data);
 	res.render('main', data);
 });
@@ -29,14 +31,22 @@ router.route('/schedule')
 			
 			res.render("form", data);
 		})
-		/** 스케줄 등록 */
+		/** 스케줄 등록, 수정 */
 		.post(validator, async (req, res, next) => {
 			const result = await scheduler.add(req.body);
 		
 			return res.json({success: result})
 		})
-		/** 스케줄 수정 */
-		.patch((req, res, next) => {
+		/** 스케줄 색상 바로 수정 */
+		.patch(async (req, res, next) => {
+			/*
+			console.log(req.body);
+			return res.send("");
+			*/
+			
+			const result = await scheduler.changeColor(req.body.period, req.body.prevColor, req.body.color);
+			
+			return res.json({success : result});
 			
 		})
 		/** 스케줄 삭제 */
@@ -45,7 +55,7 @@ router.route('/schedule')
 			
 			return res.json({success : result});
 		});
-		
+
 /** 스케줄 조회 */
 router.get("/schedule/view/:stamp/:color", async (req, res, next) => {
 	const data = await scheduler.getSchedule(req.params.stamp, req.params.color);
@@ -65,6 +75,18 @@ router.get("/schedule/:period/:color", async (req, res, next) =>{
 	
 	return res.render("form", data);
 });
+
+/** 오늘 스케줄 조회 */
+router.route("/schedule/today")
+	.get( async (req,res,next)=>{
+		const list = await scheduler.getTodaySchedules();
+		return res.render("today", { list } );
+	})
+	.patch( async (req, res, next) =>{
+		const result =await scheduler.confirmTodaySchedule(req.body.isChecked);
+		
+		return res.json({ success : result });
+	});
 
 
 module.exports = router;	

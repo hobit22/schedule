@@ -1,4 +1,14 @@
+/* 오늘 스케줄 있는경우 팝업 처리 */
+function popupToday(){
+	if($(".scheduler").hasClass("today")){
+		hb.layer.popup("/schedule/today", 400, 500);
+	}
+}
+
 $(function() {
+	// 오늘 스케줄 팝업
+	popupToday();
+	
 	$(".scheduler .day .no").click(function() {
 		const stamp = $(this).closest(".day").data("stamp");
 		const url = "/schedule?stamp=" + stamp;
@@ -7,6 +17,8 @@ $(function() {
 	
 	/** 스케줄 조회, 삭제 */
 	$(".scheduler .schedule").click(function() {
+		if ($(this).hasClass("none")) return;
+			
 		const stamp = $(this).closest(".day").data("stamp");
 		const color = $(this).data("color");
 		url = `/schedule/view/${stamp}/${color}`;
@@ -87,13 +99,75 @@ $(function() {
 				if (res.data.success) {
 					location.reload();
 				} else {
-					alert("스케줄 등록 실패 하였습니다.");
+					if( res.data.message ){
+						alert(res.data.message);
+					} else {
+						alert("스케줄 등록 실패 하였습니다.");
+					}
 				}
 			})
 			.catch(function(err) {
 				console.error(err);
 			});
 	});
+	
+	/** 스케줄 색상 바로 변경 */
+	$("body").on("click", ".schedule_view input[type='radio']", function() {
+		
+		$obj = $(this).closest(".schedule_view");
+		
+		const color = $(this).val();		
+		const period = $obj.data("period");
+		const prevColor = $obj.data("color");
+		
+		if( color == prevColor ) return; //색상이 다른경우만 처리
+		
+		const params = {
+			color: color, 
+			period:period, 
+			prevColor:prevColor,
+		};
+		
+		axios.patch("/schedule", params )
+			.then(function(res) {
+				if(res.data.success){
+					location.reload();
+				}else{
+					alert("스케줄 색상 변경 실패");
+				}
+			})
+			.catch(function(err){
+				console.error(err);
+			});
+		
+	});
+	
+	/** 오늘 스케줄 확인 처리 */
+	$("body").on("click", ".today_list .confirm", function() {
+		$list = $(".today_list input[type='checkbox']:checked");
+		
+		if(!confirm("정말 확인처리 하시겠습니까?")){
+			return ;
+		}
+ 		
+		const isChecked =[];
+		$.each($list, function() {
+			isChecked.push($(this).val());
+		});
+		axios.patch("/schedule/today", { isChecked })
+			.then( function(res) {
+				if( res.data.success ) {
+					location.reload();
+				}else {
+					alert("확인처리 실패");
+				} 
+			})
+			.catch(function(err){
+				console.error(err);
+			});
+	});
+	
+	
 	
 	 $.datepicker.setDefaults({
         dateFormat: 'yymmdd',
