@@ -170,10 +170,10 @@ const scheduler = {
 		
 		try {
 			if(params.prevColor){
-				const sql = `DELETE FROM schedule WHERE period = :period AND color = :prevColor `;
+				const sql = "DELETE FROM schedule WHERE period = :period AND color = :color";
 				await sequelize.query(sql, {
-					replacements : {period : params.prevPeriod, color: params.prevColor },
-					type : QueryTypes.DELET,
+					replacements : { period : params.prevPeriod, color: params.prevColor },
+					type : QueryTypes.DELETE,
 				});
 			}
 			for (let i = startStamp; i <= endStamp; i += step) {				
