@@ -4,11 +4,14 @@ const morgan = require('morgan');
 const nunjucks = require('nunjucks');
 const logger = require("./lib/logger");
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const { sequelize } = require('./models');
+const { loginSession } = require("./middlewares/login_session");
 
 /** 라우터 */
 const indexRouter = require('./routes');
-
+const memberRouter = require("./routes/member");
 
 dotenv.config();
 
@@ -45,9 +48,27 @@ app.use(express.static(path.join(__dirname, 'public'))); //js css 추가를 쉽�
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 
+//쿠키 설정
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+//세션 설정 
+
+app.use(session({
+	resave : false,
+	saveUninitialized : true,
+	cookie : {
+		httpOnly : true, 
+		secure : false,
+	},
+	name : "HBsession",
+}));
+
+app.use(loginSession);
 
 /** 라우터 등록 */
+app.use("/member", memberRouter);
 app.use(indexRouter); // "/" 기본 URL 생략 가능
+
 
 /** 없는 페이지 처리 */
 app.use((req,res,next)=>{

@@ -1,6 +1,6 @@
 .scheduler {width :900px; margin : 30px auto; position: relative;}
-.scheduler .today_checklist{ position : absolute; right : 100px; top : 20px; cursor:pointer; padding: 7px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px;}
-.scheduler .add_schedule{ position : absolute; right :0; top : 20px; cursor:pointer; padding: 7px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px;}
+.scheduler .today_checklist{ position : absolute; right : 100px; top : 45px; cursor:pointer; padding: 7px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px;}
+.scheduler .add_schedule{ position : absolute; right :0; top : 45px; cursor:pointer; padding: 7px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px;}
 .scheduler .nav {margin-bottom: 25px;}
 .scheduler .nav .month{ font-size: 40px; font-weight: 500; margin-right: 10px;}
 .scheduler .nav .year { font-size: 15px; }
@@ -17,7 +17,7 @@
 .scheduler .yoils {border-bottom: 1px solid #000000;}
 
 
-.scheduler .days li {float: left; width: calc(100% / 7); height: 160px; border-bottom: 1px solid #eeeeee; border-left: 1px solid #eeeeee;}
+.scheduler .days li {float: left; width: calc(100% / 7); height160px; border-bottom: 1px solid #eeeeee; border-left: 1px solid #eeeeee;}
 .scheduler .days li:nth-child(7n+1) { border-left: 0px;}
 
 .scheduler .days .day .no {padding: 5px; font-size: 12px;  cursor:pointer;}
@@ -65,3 +65,8 @@
 .today_list ul li:first-child{ border-top : 0;}
 .today_list .confirm {position : absolute; bottom: 30px; left: 30px; width : calc(100% - 60px); text-align: center; height: 55px; border-radius: 10px; background-color: #d5d5d5; cursor: pointer; line-height: 55px; font-size: 17px;}
 .today_list label { cursor :pointer; }
+
+/** btn_box */
+.scheduler .btn_box .wrap { float: right; margin-top : 10px;}
+.scheduler .btn_box:after { clear: right; content:''; display: block;}
+.scheduler .btn_box .btn {  cursor:pointer; padding: 7px; border-radius: 7px; background-color: #d5d5d5; font-size: 14px;}

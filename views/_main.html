@@ -1,4 +1,4 @@
-<div class='scheduler {% if todaySchedules.length > 0 %}today{% endif %}' >
+<div class='scheduler {% if todaySchedules.length > 0 %}today{% endif %}' >	
 	<span class='today_checklist'>
 		<i class='xi-list'></i>
 		할일
@@ -7,6 +7,17 @@
 		<i class='xi-plus-square-o'></i>
 		일정 등록
 	</span>
+	
+	<div class='btn_box'>	
+		<div class='wrap'>
+		{% if(isLogin) %}
+			<a href='/member/logout' class='logout btn'>로그아웃</a>
+		{% else %}
+			<a href='/member/login' class='login btn'>로그인</a>
+		{% endif %}
+		<a href='/member/join' class='join btn'>회원가입</a>
+		</div>
+	</div>
 	<div class='nav'>
 		<span class='month'>{{ month }}</span> 
 		<span class='year'>{{ year }}</span>

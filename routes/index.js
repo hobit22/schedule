@@ -88,5 +88,4 @@ router.route("/schedule/today")
 		return res.json({ success : result });
 	});
 
-
 module.exports = router;	
